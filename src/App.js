@@ -1,5 +1,5 @@
 import './App.css';
-import MapAPI from './component/MapAPI';
+import MapAPI from './component/Main/MapAPI';
 import Test from './component/Test';
 import Title from './component/Title';
 
@@ -28,22 +28,8 @@ function App() {
 
   return (
     <div className="App">
-      <Title />
       <MapAPI />
     </div>
-
-    // <div className="App">
-    //   <div>
-    //     value: {value}
-    //   </div>
-    //   <button onClick={addValue}> + </button>
-    //   <button onClick={subValue}> - </button>
-    //   <button onClick={resetValue}> reset </button>
-    //   <div>
-    //     count: {count}
-    //   </div>
-    //   <button onClick={pushButton}> click </button>
-    // </div>
   );
 }
 export default App;
