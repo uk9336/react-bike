@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 const CommonHeader = styled.header`
   display: flex;
@@ -57,20 +57,20 @@ const MyPageButton = styled.button`
 `;
 
 function Header({ title, enableBackspace, enableMyPage }) {
-  const history = useHistory();
-  const backSpaceHandler = () => {
-    history.go(-1);
-  };
-  const myPageHandler = () => {
-    // history.push("/user");
-  };
+  // const history = useHistory();
+  // const backSpaceHandler = () => {
+  //   history.go(-1);
+  // };
+  // const myPageHandler = () => {
+  //   // history.push("/user");
+  // };
   return (
     <CommonHeader>
       <BackspaceWrapper>
         {enableBackspace && (
           <BackspaceButton
-            enableBackspace={enableBackspace}
-            onClick={backSpaceHandler}
+          // enableBackspace={enableBackspace}
+          // onClick={backSpaceHandler}
           >
             ←
           </BackspaceButton>
@@ -79,9 +79,7 @@ function Header({ title, enableBackspace, enableMyPage }) {
       <TitleWrapper>{title}</TitleWrapper>
       <MyPageButtonWrapper>
         {enableMyPage && (
-          <MyPageButton enableMyPage={enableMyPage} onClick={myPageHandler}>
-            내 정보
-          </MyPageButton>
+          <MyPageButton enableMyPage={enableMyPage}>내 정보</MyPageButton>
         )}
       </MyPageButtonWrapper>
     </CommonHeader>

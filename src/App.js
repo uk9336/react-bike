@@ -2,6 +2,7 @@ import './App.css';
 import MapAPI from './component/Main/MapAPI';
 import Test from './component/Test';
 import Title from './component/Title';
+import { Route, Switch } from "react-router-dom";
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,6 +30,9 @@ function App() {
   return (
     <div className="App">
       <MapAPI />
+      <Switch>
+        <Route exact path="/" component={MapAPI} />
+      </Switch>
     </div>
   );
 }
