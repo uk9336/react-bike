@@ -6,21 +6,22 @@ import CommonTemplate from "../Common/CommonTemplate";
 import { find } from "../../api/api_bike";
 import axios from "axios";
 
-var points = [
-  { lat: 37.400465, lng: 127.11348 },
-  { lat: 37.400463, lng: 127.11347 },
-  { lat: 37.400464, lng: 127.11346 },
-  { lat: 37.400455, lng: 127.11345 },
-];
+function MapAPI(
+  { google, locations = [] }
+) {
 
-// class MapAPI extends Component {
-function MapAPI({ google, locations = [] }) {
+  const defaultProps = {
+    center: {
+      lat: 59.95,
+      lng: 30.33
+    },
+    zoom: 11
+  };
 
   var call = 0;
-
+  const [Location, setLocation] = useState([]);
   useEffect(() => {
     onBikeHandler();
-    call = 1;
   }, []);
 
   const dispatch = useDispatch();
@@ -35,20 +36,16 @@ function MapAPI({ google, locations = [] }) {
     //       console.log(error);
     //     }
     //   );
-    if (call == 0) {
-      axios
-        .get("/gateway/bsBikeRentIdGet/v1/bsBikeRentIdGet/restAPI", {
-          headers: {
-            'x-Gateway-APIKey': process.env.REACT_APP_TMONEYKEY,
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-        });
-    }
-
+    axios
+      .get("/gateway/bsBikeRentIdGet/v1/bsBikeRentIdGet/restAPI", {
+        headers: {
+          'x-Gateway-APIKey': process.env.REACT_APP_TMONEYKEY,
+        },
+      })
+      .then((response) => {
+        setLocation(response.data.valueResults)
+      });
   };
-
 
   return (
     <CommonTemplate>
@@ -56,14 +53,28 @@ function MapAPI({ google, locations = [] }) {
       <div>
         <Map
           google={google}
-          zoom={16}
+          zoom={8}
           initialCenter={{ lat: 37.400465, lng: 127.11348 }}
-        ></Map>
+          center={{ lat: 37.400465, lng: 127.11348 }}>
+
+          <div>
+            {Location.map((todo, index) => {
+              return (
+                <div>
+                  <Marker
+                    key={String(index)}
+                    title={'The marker`s title will appear as a tooltip.'}
+                    name={'Dolores park'}
+                    position={{ lat: todo.rncnLttdLoc, lng: todo.rncnLngtLoc }} />
+                </div>
+              )
+            })}
+          </div>
+        </Map>
       </div>
     </CommonTemplate>
   );
 }
-// }
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLEMAPKEY,
 })(MapAPI);
