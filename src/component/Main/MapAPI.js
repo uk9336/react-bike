@@ -19,23 +19,13 @@ function MapAPI(
   };
 
   var call = 0;
-  const [Location, setLocation] = useState([]);
+  const [Location, setLocation] = useState(['']);
   useEffect(() => {
     onBikeHandler();
   }, []);
 
   const dispatch = useDispatch();
   const onBikeHandler = () => {
-    console.log('click')
-    // dispatch(find())
-    //   .then(
-    //     response => {
-    //       console.log(response);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     }
-    //   );
     axios
       .get("/gateway/bsBikeRentIdGet/v1/bsBikeRentIdGet/restAPI", {
         headers: {
@@ -52,24 +42,19 @@ function MapAPI(
       <Header title={"자전거 대여소 정보"} />
       <div>
         <Map
+          style={{ width: '100%', height: '100%', position: 'relative' }}
           google={google}
-          zoom={8}
+          zoom={15}
           initialCenter={{ lat: 37.400465, lng: 127.11348 }}
-          center={{ lat: 37.400465, lng: 127.11348 }}>
-
-          <div>
-            {Location.map((todo, index) => {
-              return (
-                <div>
-                  <Marker
-                    key={String(index)}
-                    title={'The marker`s title will appear as a tooltip.'}
-                    name={'Dolores park'}
-                    position={{ lat: todo.rncnLttdLoc, lng: todo.rncnLngtLoc }} />
-                </div>
-              )
-            })}
-          </div>
+          center={{ lat: 37.5666805, lng: 126.9784147 }}>
+          {Location.map((todo, index) =>
+            <Marker
+              key={String(index)}
+              title={String(index)}
+              name={String(index)}
+              position={{ lat: todo.rncnLttdLoc, lng: todo.rncnLngtLoc }} >
+            </Marker>
+          )}
         </Map>
       </div>
     </CommonTemplate>
