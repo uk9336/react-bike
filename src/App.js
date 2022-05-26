@@ -29,7 +29,6 @@ function App() {
 
   return (
     <div className="App">
-      <MapAPI />
       <Switch>
         <Route exact path="/" component={MapAPI} />
       </Switch>
