@@ -6,64 +6,60 @@ import CommonTemplate from "../Common/CommonTemplate";
 import { find } from "../../api/api_bike";
 import axios from "axios";
 
-var points = [
-  { lat: 37.400465, lng: 127.11348 },
-  { lat: 37.400463, lng: 127.11347 },
-  { lat: 37.400464, lng: 127.11346 },
-  { lat: 37.400455, lng: 127.11345 },
-];
+function MapAPI(
+  { google, locations = [] }
+) {
 
-// class MapAPI extends Component {
-function MapAPI({ google, locations = [] }) {
+  const defaultProps = {
+    center: {
+      lat: 59.95,
+      lng: 30.33
+    },
+    zoom: 11
+  };
 
   var call = 0;
-
+  const [Location, setLocation] = useState(['']);
   useEffect(() => {
     onBikeHandler();
-    call = 1;
   }, []);
 
   const dispatch = useDispatch();
   const onBikeHandler = () => {
-    console.log('click')
-    // dispatch(find())
-    //   .then(
-    //     response => {
-    //       console.log(response);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     }
-    //   );
-    if (call == 0) {
-      axios
-        .get("/gateway/bsBikeRentIdGet/v1/bsBikeRentIdGet/restAPI", {
-          headers: {
-            'x-Gateway-APIKey': process.env.REACT_APP_TMONEYKEY,
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-        });
-    }
-
+    axios
+      .get("/gateway/bsBikeRentIdGet/v1/bsBikeRentIdGet/restAPI", {
+        headers: {
+          'x-Gateway-APIKey': process.env.REACT_APP_TMONEYKEY,
+        },
+      })
+      .then((response) => {
+        setLocation(response.data.valueResults)
+      });
   };
-
 
   return (
     <CommonTemplate>
       <Header title={"자전거 대여소 정보"} />
       <div>
         <Map
+          style={{ width: '100%', height: '100%', position: 'relative' }}
           google={google}
-          zoom={16}
+          zoom={15}
           initialCenter={{ lat: 37.400465, lng: 127.11348 }}
-        ></Map>
+          center={{ lat: 37.5666805, lng: 126.9784147 }}>
+          {Location.map((todo, index) =>
+            <Marker
+              key={String(index)}
+              title={String(index)}
+              name={String(index)}
+              position={{ lat: todo.rncnLttdLoc, lng: todo.rncnLngtLoc }} >
+            </Marker>
+          )}
+        </Map>
       </div>
     </CommonTemplate>
   );
 }
-// }
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLEMAPKEY,
 })(MapAPI);
