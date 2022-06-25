@@ -7,5 +7,5 @@ http://139.150.75.192:3000
 pm2 기본 명령어
 - pm2 list
 - pm2 stop id
-- pm2 start npm -- start
+- pm2 start npm -- start bike
 ```
